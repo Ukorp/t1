@@ -1,6 +1,6 @@
 package com.test.t1.service;
 
-import com.test.t1.annotation.CustomLog;
+import com.test.t1.annotation.CustomLogging;
 import com.test.t1.annotation.TimeMonitoring;
 import com.test.t1.exception.TaskNotFoundException;
 import com.test.t1.model.Task;
@@ -16,29 +16,29 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
 
-    @CustomLog
+    @CustomLogging
     @TimeMonitoring
     public Task save(Task task) {
         return taskRepository.save(task);
     }
 
-    @CustomLog
+    @CustomLogging
     public Task findById(Long id) {
         return taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("Задача не найдена"));
     }
 
-    @CustomLog
+    @CustomLogging
     public List<Task> findAll() {
         return taskRepository.findAll();
     }
 
-    @CustomLog
+    @CustomLogging
     public Task update(Long id, Task task) {
         task.setId(id);
         return taskRepository.save(task);
     }
 
-    @CustomLog
+    @CustomLogging
     public void delete(Long id) {
         taskRepository.deleteById(id);
     }

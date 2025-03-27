@@ -22,13 +22,12 @@ public class TimeMonitoringAspect {
         try {
             result = joinPoint.proceed();
         } catch (Throwable throwable) {
-            log.warn("Метод {} выбросил исключение на земере времени", joinPoint.getSignature().getName());
+            log.error("Метод {} выбросил исключение на земере времени", joinPoint.getSignature().getName());
             throw throwable;
-        } finally {
-            long end = System.currentTimeMillis();
-            log.info("Замер метода {} закончился", joinPoint.getSignature().getName());
-            log.info("Время выполнения метода {}: {} ms", joinPoint.getSignature().getName(), end - start);
         }
+        long end = System.currentTimeMillis();
+        log.info("Замер метода {} закончился", joinPoint.getSignature().getName());
+        log.info("Время выполнения метода {}: {} ms", joinPoint.getSignature().getName(), end - start);
         return result;
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class LogAspect {
 
-    @Pointcut("@annotation(com.test.t1.annotation.CustomLog)")
+    @Pointcut("@annotation(com.test.t1.annotation.CustomLogging)")
     public void customLogPointcut() {}
 
     @Before("customLogPointcut()")
@@ -33,6 +33,6 @@ public class LogAspect {
             throwing = "exception"
     )
     public void logAfterThrow(JoinPoint joinPoint, Exception exception) {
-        log.warn("Метод {} выбросил исключение: {}", joinPoint.getSignature().getName(), exception.getMessage());
+        log.error("Метод {} выбросил исключение: {}", joinPoint.getSignature().getName(), exception.getMessage());
     }
 }
