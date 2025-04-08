@@ -4,12 +4,14 @@ import com.test.t1.dto.TaskRequest;
 import com.test.t1.dto.TaskResponse;
 import com.test.t1.model.Task;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface TaskMapper {
 
-    Task toTaskRequest(TaskRequest task);
+    @Mapping(target = "status", defaultValue = "RECEIVED")
+    Task toTask(TaskRequest task);
 
     TaskResponse toTaskResponse(Task task);
 }
