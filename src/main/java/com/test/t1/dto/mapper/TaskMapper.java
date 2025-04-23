@@ -5,11 +5,16 @@ import com.test.t1.dto.TaskResponse;
 import com.test.t1.model.Task;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
+import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = "spring")
+@Component
 public interface TaskMapper {
 
+    TaskMapper INSTANCE = Mappers.getMapper(TaskMapper.class);
+
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "status", defaultValue = "RECEIVED")
     Task toTask(TaskRequest task);
 
