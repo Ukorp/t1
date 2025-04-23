@@ -7,6 +7,7 @@ import com.test.t1.dto.TaskResponse;
 import com.test.t1.dto.mapper.TaskMapper;
 import com.test.t1.exception.TaskNotFoundException;
 import com.test.t1.kafka.KafkaClientProducer;
+import com.test.t1.model.Status;
 import com.test.t1.model.Task;
 import com.test.t1.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,10 +53,10 @@ public class TaskService {
     public TaskResponse update(Long id, TaskRequest task) {
         Task entity = taskMapper.toTask(task);
         entity.setId(id);
+        Status oldStatus = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("Задача не найдена")).getStatus();
         Task updatedTask = taskRepository.save(entity);
         log.info("Новый статус задания: {}", task.status());
-        if (task.status() != null) {
-
+        if (task.status() != null && !oldStatus.name().equals(task.status().name())) {
             kafkaClientProducer.send(id, task.status().name());
         }
         return taskMapper.toTaskResponse(updatedTask);

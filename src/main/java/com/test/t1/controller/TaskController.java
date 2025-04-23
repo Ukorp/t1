@@ -2,8 +2,10 @@ package com.test.t1.controller;
 
 import com.test.t1.dto.TaskRequest;
 import com.test.t1.dto.TaskResponse;
+import com.test.t1.exception.TaskNotFoundException;
 import com.test.t1.service.TaskService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,6 +40,12 @@ public class TaskController {
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable Long id) {
         taskService.delete(id);
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String exceptionHandler(TaskNotFoundException e) {
+        return e.getMessage();
     }
 
 }
